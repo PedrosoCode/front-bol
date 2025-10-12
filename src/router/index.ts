@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import OrdemServicoView from '@/views/OrdemServicoView.vue'
+import MainMenuView from '@/views/MainMenuView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,6 +16,7 @@ const router = createRouter({
       path: '/ordem_servico',
       name: 'ordem_servico',
       component: OrdemServicoView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/login',
@@ -22,14 +24,47 @@ const router = createRouter({
       component: LoginView,
     },
     {
+      path: '/menu',
+      name: 'menu',
+      component: MainMenuView,
+      meta: { requiresAuth: true }
+    },
+    {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
     },
   ],
 })
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('jwtToken')
+
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!token) {
+      next({ name: 'login' })
+    } else {
+      const isExpired = checkTokenExpiration(token)
+      if (isExpired) {
+        localStorage.removeItem('jwtToken')
+        next({ name: 'login' })
+      } else {
+        next()
+      }
+    }
+  } else {
+    next()
+  }
+})
+
+function checkTokenExpiration(token : any) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]))
+    const exp = payload.exp * 1000
+    return Date.now() > exp
+  } catch (error) {
+    return true
+  }
+}
 
 export default router

@@ -6,3 +6,8 @@ import HelloWorld from './components/HelloWorld.vue'
 <template>
   <RouterView />
 </template>
+
+//TODO - Tela - tipo de máquina
+//TODO - Tela - modelo de máquina
+//TODO - Tela - cadastro de item/servico
+//TODO - Tela - cadastro parceiro de negocio

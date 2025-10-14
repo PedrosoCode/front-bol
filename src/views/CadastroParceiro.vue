@@ -82,11 +82,10 @@ function GerenciaModalConfirmacaoEnviar(bool: Boolean) {
 
       bGatilhoModalCofirmacao.value = false
 
-      axios.post(import.meta.env.VITE_DEFAULT_API_LINK + '/cadparceiros/upsert_parceiro', {
+      axios.post(import.meta.env.VITE_DEFAULT_API_LINK + '/parceiro/insert', {
         nCodigoParceiro: urlCodigoParceiro,
         sRazaoSocial: stFormInfo.sRazaoSocial,
         sNomeFantasia: stFormInfo.sNomeFantasia,
-        nTipoParceiro: stFormInfo.nCodigoTipoParceiro,
         sEmail: stFormInfo.sEmail,
         sDocumento: stFormInfo.sCnpjCpf,
         sTelefone: stFormInfo.sTelefone,
@@ -99,7 +98,8 @@ function GerenciaModalConfirmacaoEnviar(bool: Boolean) {
         nCodigoPais: stFormInfo.nCodigoPais,
         nCodigoCidade: stFormInfo.nCodigoCidade,
         nCodigoEstado: stFormInfo.nCodigoEstado,
-      })
+      },
+      { headers: { Authorization: `Bearer ${jwtToken}` } })
         .catch((error) => console.log(error))
     }
 

@@ -8,10 +8,11 @@ interface Filtro {
 }
 
 interface Parceiro {
-  sNomeFantasiaParceiro: string
-  sRazaoSocialParceiro: string
-  sDescricaoCidade: string
-  nCodigoParceiro: number
+  sNomeFantasia: string
+  sRazaoSocial: string
+  sCidade: string
+  sEstado: string
+  nCodigo: number
 }
 
 const filtro = reactive<Filtro>({
@@ -24,7 +25,7 @@ const router = useRouter()
 
 function verDetalhes(codigoParceiro: number) {
   router.push({
-    name: 'detalhes_parceiro',
+    name: 'cadastro_parceiro',
     params: { id: codigoParceiro }
   })
 }
@@ -32,7 +33,7 @@ function verDetalhes(codigoParceiro: number) {
 async function getListaParceiros() {
   try {
     const response = await axios.post(
-      import.meta.env.VITE_DEFAULT_API_LINK + '/cadparceiros/listagem',
+      import.meta.env.VITE_DEFAULT_API_LINK + '/parceiro/select',
       { sNomeParceiro: filtro.sNomeParceiro },
       { headers: { Authorization: `Bearer ${jwtToken}` } }
     )
@@ -93,14 +94,14 @@ onMounted(() => {
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               <tr v-for="(parceiro, index) in dadosParceiros" :key="index">
-                <td class="px-4 py-3 text-sm text-gray-700">{{ parceiro.nCodigoParceiro }}</td>
-                <td class="px-4 py-3 text-sm text-gray-700">{{ parceiro.sNomeFantasiaParceiro }}</td>
-                <td class="px-4 py-3 text-sm text-gray-700">{{ parceiro.sRazaoSocialParceiro }}</td>
-                <td class="px-4 py-3 text-sm text-gray-700">{{ parceiro.sDescricaoCidade }}</td>
+                <td class="px-4 py-3 text-sm text-gray-700">{{ parceiro.nCodigo }}</td>
+                <td class="px-4 py-3 text-sm text-gray-700">{{ parceiro.sNomeFantasia }}</td>
+                <td class="px-4 py-3 text-sm text-gray-700">{{ parceiro.sRazaoSocial }}</td>
+                <td class="px-4 py-3 text-sm text-gray-700">{{ parceiro.sCidade }} - {{ parceiro.sEstado }}</td>
                 <td class="px-4 py-3 text-sm text-gray-700">
                   <button
                     type="button"
-                    @click="verDetalhes(parceiro.nCodigoParceiro)"
+                    @click="verDetalhes(parceiro.nCodigo)"
                     class="px-3 py-1 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
                   >
                     Detalhes

@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import OrdemServicoView from '@/views/OrdemServicoView.vue'
 import MainMenuView from '@/views/MainMenuView.vue'
+import ListaParceiroNegocio from '@/views/ListaParceiroNegocio.vue'
+import CadastroParceiro from '@/views/CadastroParceiro.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,6 +30,25 @@ const router = createRouter({
       name: 'menu',
       component: MainMenuView,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/lista_parceiro',
+      name: 'lista_parceiro',
+      component: ListaParceiroNegocio,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/cadastro_parceiro',
+      name: 'cadastro_parceiro',
+      component: CadastroParceiro,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/lista_parceiro/:id',
+      name: 'cadastro_parceiro',
+      component: CadastroParceiro,
+      meta: { requiresAuth: true },
+      props: true //
     },
     {
       path: '/about',

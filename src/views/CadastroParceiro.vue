@@ -70,62 +70,87 @@ const stCboEstado = ref<stateComboEstado[]>([])
 const route = useRoute();
 const jwtToken = localStorage.getItem('jwtToken')
 
-const urlCodigoParceiro: number | null = route.params.id === undefined || isNaN(Number(route.params.id))
+let urlCodigoParceiro: number | null = route.params.id === undefined || isNaN(Number(route.params.id))
   ? null
   : Number(route.params.id);
 
 
-function GerenciaModalConfirmacaoEnviar(bool: Boolean) {
+async function GerenciaModalConfirmacaoEnviar() {
   try {
+    bGatilhoModalCofirmacao.value = false
 
-    if (bool) {
+    if (urlCodigoParceiro) {
+      await axios.post(
+        import.meta.env.VITE_DEFAULT_API_LINK + '/parceiro/update',
+        {
+          nCodigoParceiro: urlCodigoParceiro,
+          sRazaoSocial: stFormInfo.sRazaoSocial,
+          sNomeFantasia: stFormInfo.sNomeFantasia,
+          sEmail: stFormInfo.sEmail,
+          sDocumento: stFormInfo.sCnpjCpf,
+          sTelefone: stFormInfo.sTelefone,
+          sContato: stFormInfo.sContato,
+          sLogradouro: stFormInfo.sRua,
+          sBairro: stFormInfo.sBairro,
+          sComplemento: stFormInfo.sComplemento,
+          sNumero: stFormInfo.sNrua,
+          sCep: stFormInfo.sCep,
+          nCodigoPais: stFormInfo.nCodigoPais,
+          nCodigoCidade: stFormInfo.nCodigoCidade,
+          nCodigoEstado: stFormInfo.nCodigoEstado,
+        },
+        { headers: { Authorization: `Bearer ${jwtToken}` } }
+      )
 
-      bGatilhoModalCofirmacao.value = false
+      await LoadDadosParceiro(urlCodigoParceiro);
 
-      axios.post(import.meta.env.VITE_DEFAULT_API_LINK + '/parceiro/insert', {
-        nCodigoParceiro: urlCodigoParceiro,
-        sRazaoSocial: stFormInfo.sRazaoSocial,
-        sNomeFantasia: stFormInfo.sNomeFantasia,
-        sEmail: stFormInfo.sEmail,
-        sDocumento: stFormInfo.sCnpjCpf,
-        sTelefone: stFormInfo.sTelefone,
-        sContato: stFormInfo.sContato,
-        sLogradouro: stFormInfo.sRua,
-        sBairro: stFormInfo.sBairro,
-        sComplemento: stFormInfo.sComplemento,
-        sNumero: stFormInfo.sNrua,
-        sCep: stFormInfo.sCep,
-        nCodigoPais: stFormInfo.nCodigoPais,
-        nCodigoCidade: stFormInfo.nCodigoCidade,
-        nCodigoEstado: stFormInfo.nCodigoEstado,
-      },
-      { headers: { Authorization: `Bearer ${jwtToken}` } })
-        .catch((error) => console.log(error))
+    } else {
+      const response = await axios.post(
+        import.meta.env.VITE_DEFAULT_API_LINK + '/parceiro/insert',
+        {
+          sRazaoSocial: stFormInfo.sRazaoSocial,
+          sNomeFantasia: stFormInfo.sNomeFantasia,
+          sEmail: stFormInfo.sEmail,
+          sDocumento: stFormInfo.sCnpjCpf,
+          sTelefone: stFormInfo.sTelefone,
+          sContato: stFormInfo.sContato,
+          sLogradouro: stFormInfo.sRua,
+          sBairro: stFormInfo.sBairro,
+          sComplemento: stFormInfo.sComplemento,
+          sNumero: stFormInfo.sNrua,
+          sCep: stFormInfo.sCep,
+          nCodigoPais: stFormInfo.nCodigoPais,
+          nCodigoCidade: stFormInfo.nCodigoCidade,
+          nCodigoEstado: stFormInfo.nCodigoEstado,
+        },
+        { headers: { Authorization: `Bearer ${jwtToken}` } }
+      )
+
+      urlCodigoParceiro = response.data.codigo_insert
+
+      redirecionarInsert()
+
     }
 
-    router.push('/listaparceiro')
+    // router.push('/listaparceiro')
 
   } catch (error) {
     console.error(error)
     alert('Ocorreu um erro. Por favor, tente novamente.')
   }
-
 }
 
-function GerenciaModalConfirmacaoDeleteEnviar(bool: Boolean) {
+
+function GerenciaModalConfirmacaoDeleteEnviar() {
   try {
 
-    if (bool) {
+    bGatilhoModalCofirmacao.value = false
+    axios.post(import.meta.env.VITE_DEFAULT_API_LINK + '/parceiro/delete', {
+      nCodigoParceiro: urlCodigoParceiro
+    }, { headers: { Authorization: `Bearer ${jwtToken}` } })
+      .catch((error) => console.log(error))
 
-      bGatilhoModalCofirmacao.value = false
-
-      axios.post(import.meta.env.VITE_DEFAULT_API_LINK + '/cadparceiros/delete_parceiro', {
-        nCodigoParceiro: urlCodigoParceiro
-      })
-        .catch((error) => console.log(error))
-    }
-
-    router.push('/listaparceiro')
+    router.push('/lista_parceiro')
 
   } catch (error) {
     console.error(error)
@@ -231,6 +256,13 @@ function ComboEstadoSelectedChange(event: Event) {
   loadComboCidade(codigoEstado)
 }
 
+function redirecionarInsert() {
+  router.push({
+    name: 'editar_parceiro',
+    params: { id: urlCodigoParceiro }
+  })
+}
+
 onMounted(() => {
   loadCombos()
 })
@@ -247,7 +279,7 @@ onMounted(() => {
       textoBotaoCancelar="Cancelar"
       corBotaoConfirmar="indigo"
       corBotaoCancelar="red"
-      @confirmar="() => GerenciaModalConfirmacaoEnviar(true)"
+      @confirmar="() => GerenciaModalConfirmacaoEnviar()"
       @cancelar="bGatilhoModalCofirmacao = false"
     />
 
@@ -260,7 +292,7 @@ onMounted(() => {
       textoBotaoCancelar="Cancelar"
       corBotaoConfirmar="indigo"
       corBotaoCancelar="red"
-      @confirmar="() => GerenciaModalConfirmacaoDeleteEnviar(true)"
+      @confirmar="() => GerenciaModalConfirmacaoDeleteEnviar()"
       @cancelar="bGatilhoModalCofirmacaoDelete = false"
     />
 

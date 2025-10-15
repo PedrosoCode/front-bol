@@ -44,8 +44,8 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/lista_parceiro/:id',
-      name: 'cadastro_parceiro',
+      path: '/editar_parceiro/:id',
+      name: 'editar_parceiro',
       component: CadastroParceiro,
       meta: { requiresAuth: true },
       props: true //

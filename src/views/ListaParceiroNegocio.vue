@@ -25,7 +25,7 @@ const router = useRouter()
 
 function verDetalhes(codigoParceiro: number) {
   router.push({
-    name: 'cadastro_parceiro',
+    name: 'editar_parceiro',
     params: { id: codigoParceiro }
   })
 }
@@ -51,6 +51,12 @@ function btnFiltrarClicked() {
   getListaParceiros()
 }
 
+function btnNovoClicked() {
+  router.push({
+    name: 'cadastro_parceiro',
+  })
+}
+
 onMounted(() => {
   getListaParceiros()
 })
@@ -62,19 +68,20 @@ onMounted(() => {
         <!-- Formulário de Filtro -->
         <form @submit.prevent="btnFiltrarClicked" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
           <div class="md:col-span-2">
-            <label for="txtNomeParceiro" class="block text-sm font-medium text-gray-700">Nome do Parceiro</label>
-            <input
-              id="txtNomeParceiro"
-              type="text"
-              v-model="filtro.sNomeParceiro"
-              class="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 bg-slate-50 focus:outline-none focus:ring-1 focus:ring-indigo-300"
-            />
+            <label for="txtNomeParceiro" class="block text-sm font-medium text-gray-700">
+              Nome do Parceiro
+            </label>
+            <input id="txtNomeParceiro" type="text" v-model="filtro.sNomeParceiro"
+              class="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 bg-slate-50 focus:outline-none focus:ring-1 focus:ring-indigo-300" />
           </div>
-          <div>
-            <button
-              type="submit"
-              class="w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-            >
+
+          <div class="flex gap-2">
+            <button type="button" @click="btnNovoClicked"
+              class="flex-1 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
+              Novo
+            </button>
+            <button type="submit"
+              class="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
               Filtrar
             </button>
           </div>
@@ -99,11 +106,8 @@ onMounted(() => {
                 <td class="px-4 py-3 text-sm text-gray-700">{{ parceiro.sRazaoSocial }}</td>
                 <td class="px-4 py-3 text-sm text-gray-700">{{ parceiro.sCidade }} - {{ parceiro.sEstado }}</td>
                 <td class="px-4 py-3 text-sm text-gray-700">
-                  <button
-                    type="button"
-                    @click="verDetalhes(parceiro.nCodigo)"
-                    class="px-3 py-1 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-                  >
+                  <button type="button" @click="verDetalhes(parceiro.nCodigo)"
+                    class="px-3 py-1 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
                     Detalhes
                   </button>
                 </td>

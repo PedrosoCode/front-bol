@@ -50,6 +50,25 @@ const router = createRouter({
       meta: { requiresAuth: true },
       props: true //
     },
+    // {
+    //   path: '/lista_produto',
+    //   name: 'lista_produto',
+    //   component: ListaProduto,
+    //   meta: { requiresAuth: true }
+    // },
+    // {
+    //   path: '/cadastro_produto',
+    //   name: 'cadastro_produto',
+    //   component: CadastroProduto,
+    //   meta: { requiresAuth: true }
+    // },
+    // {
+    //   path: '/editar_produto/:id',
+    //   name: 'editar_produto',
+    //   component: CadastroParceiro,
+    //   meta: { requiresAuth: true },
+    //   props: true //
+    // },
     {
       path: '/about',
       name: 'about',

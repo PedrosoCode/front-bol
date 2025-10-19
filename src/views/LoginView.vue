@@ -63,29 +63,51 @@ onMounted(() => {
 </script>
 
 <template>
-    <div>
-        <!-- card login -->
-        <div class="mx-4 sm:mx-auto max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mt-8 mb-6">
-            <!-- inputs -->
-            <div class="bg-blue-200 border border-t-0 rounded-t-3xl border-gray-300 shadow-lg p-4 sm:p-6 md:p-8 space-y-6">
-                <div>
-                    <label class="block text-sm sm:text-base font-medium text-gray-700">Usuário</label>
-                    <input type="text" v-model="loginForm.sNomeUsuario"
-                        class="w-full rounded-md border border-slate-300 px-3 py-2 sm:px-4 sm:py-3 focus:outline-none focus:ring-1 focus:ring-indigo-300 bg-slate-50" /></input>
-                </div>
-                <div>
-                    <label class="block text-sm sm:text-base font-medium text-gray-700">Senha</label>
-                    <input type="password" v-model="loginForm.sSenha"
-                        class="w-full rounded-md border border-slate-300 px-3 py-2 sm:px-4 sm:py-3 focus:outline-none focus:ring-1 focus:ring-indigo-300 bg-slate-50" /></input>
-                </div>
-            </div>
-            <!-- btn -->
-            <div class="bg-blue-200 p-3 rounded-b-lg">
-                <button @click="btnLogarClick()" class="w-full py-1 font-medium text-gray-700 bg-teal-100 rounded-md transition-all
-         hover:bg-teal-300 hover:outline hover:outline-2 hover:outline-indigo-600">
-                    Entrar
-                </button>
-            </div>
-        </div>
-    </div>
+  <v-container fluid fill-height>
+    <v-row align="center" justify="center">
+      <v-col cols="12" sm="8" md="6" lg="4">
+        <v-card
+          class="pa-6"
+          elevation="6"
+          rounded="xl"
+        >
+          <v-card-title class="text-h5 text-center mb-4">
+            Login
+          </v-card-title>
+
+          <v-card-text>
+            <v-form>
+              <v-text-field
+                v-model="loginForm.sNomeUsuario"
+                variant="outlined"
+                label="Usuário"
+                hint="Insira seu usuário"
+                density="comfortable"
+                class="mb-3"
+              />
+
+              <v-text-field
+                v-model="loginForm.sSenha"
+                variant="outlined"
+                label="Senha"
+                hint="Insira sua senha"
+                type="password"
+                density="comfortable"
+                class="mb-4"
+              />
+
+              <v-btn
+                block
+                color="primary"
+                @click="btnLogarClick"
+                size="large"
+              >
+                Entrar
+              </v-btn>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>

@@ -5,6 +5,8 @@ import OrdemServicoView from '@/views/OrdemServicoView.vue'
 import MainMenuView from '@/views/MainMenuView.vue'
 import ListaParceiroNegocio from '@/views/ListaParceiroNegocio.vue'
 import CadastroParceiro from '@/views/CadastroParceiro.vue'
+import ListaItemView from '@/views/ListaItemView.vue'
+import CadastroProdutoView from '@/views/CadastroProdutoView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,25 +52,25 @@ const router = createRouter({
       meta: { requiresAuth: true },
       props: true //
     },
-    // {
-    //   path: '/lista_produto',
-    //   name: 'lista_produto',
-    //   component: ListaProduto,
-    //   meta: { requiresAuth: true }
-    // },
-    // {
-    //   path: '/cadastro_produto',
-    //   name: 'cadastro_produto',
-    //   component: CadastroProduto,
-    //   meta: { requiresAuth: true }
-    // },
-    // {
-    //   path: '/editar_produto/:id',
-    //   name: 'editar_produto',
-    //   component: CadastroParceiro,
-    //   meta: { requiresAuth: true },
-    //   props: true //
-    // },
+    {
+      path: '/lista_produto',
+      name: 'lista_produto',
+      component: ListaItemView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/cadastro_produto',
+      name: 'cadastro_produto',
+      component: CadastroProdutoView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/editar_produto/:id',
+      name: 'editar_produto',
+      component: CadastroProdutoView,
+      meta: { requiresAuth: true },
+      props: true //
+    },
     {
       path: '/about',
       name: 'about',

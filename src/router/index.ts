@@ -7,6 +7,7 @@ import ListaParceiroNegocio from '@/views/ListaParceiroNegocio.vue'
 import CadastroParceiro from '@/views/CadastroParceiro.vue'
 import ListaItemView from '@/views/ListaItemView.vue'
 import CadastroProdutoView from '@/views/CadastroProdutoView.vue'
+import CadastroServicoView from '@/views/CadastroServicoView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -65,11 +66,10 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/editar_produto/:id',
-      name: 'editar_produto',
-      component: CadastroProdutoView,
-      meta: { requiresAuth: true },
-      props: true //
+      path: '/cadastro_servico',
+      name: 'cadastro_servico',
+      component: CadastroServicoView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/about',
